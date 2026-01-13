@@ -1,73 +1,161 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Divisibilidad</title>
-  <style>
-    body {
-      background-color: #d9c9ff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 400px;
-      margin: auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-    button {
-      padding: 10px 15px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Divisibilidad</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #d9c7f3;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.contenedor {
+    background: white;
+    width: 380px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+img {
+    width: 120px;
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: #6a1b9a;
+    font-size: 36px;
+}
+
+button {
+    padding: 10px;
+    width: 90%;
+    margin: 6px 0;
+    font-size: 16px;
+    background-color: #b388eb;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #9c6adf;
+}
+
+label {
+    font-size: 16px;
+}
+
+#resultado {
+    white-space: pre-line;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: left;
+}
+
+#puntaje {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4a148c;
+    margin-bottom: 10px;
+}
+</style>
 </head>
+
 <body>
 
-  <h1>🎯 Practica Divisibilidad</h1>
+<div class="contenedor">
 
-  <div class="card">
-    <h2 id="numero"></h2>
+<img src="https://cdn-icons-png.flaticon.com/512/201/201623.png" alt="Matemáticas">
 
-    <label><input type="checkbox" id="d2"> Divisible por 2</label><br>
-    <label><input type="checkbox" id="d3"> Divisible por 3</label><br>
-    <label><input type="checkbox" id="d5"> Divisible por 5</label><br><br>
+<div id="puntaje">⭐ Puntaje total: 0</div>
 
-    <button onclick="verificar()">Verificar</button>
-    <p id="resultado"></p>
-    <h3>Puntaje: <span id="puntaje">0</span></h3>
-  </div>
+<h2>¿Es divisible?</h2>
+
+<h1 id="numero">---</h1>
+
+<button onclick="nuevoNumero()">🎲 Nuevo número</button>
+<button onclick="reiniciar()">🔄 Reiniciar puntaje</button>
+
+<br>
+
+<label><input type="checkbox" id="d2"> Divisible por 2</label><br>
+<label><input type="checkbox" id="d3"> Divisible por 3</label><br>
+<label><input type="checkbox" id="d5"> Divisible por 5</label>
+
+<br><br>
+
+<button onclick="comprobar()">✅ Comprobar</button>
+
+<div id="resultado"></div>
+
+</div>
 
 <script>
-  let numero, puntos = 0;
+let numero = 0;
+let puntajeTotal = 0;
 
-  function nuevoNumero() {
+function nuevoNumero() {
     numero = Math.floor(Math.random() * 991) + 10;
-    document.getElementById("numero").textContent = "Número: " + numero;
-    document.querySelectorAll("input").forEach(c => c.checked = false);
-  }
+    document.getElementById("numero").innerText = numero;
+    document.getElementById("resultado").innerText = "";
 
-  function verificar() {
-    let aciertos = 0;
-    if (document.getElementById("d2").checked === (numero % 2 === 0)) aciertos++;
-    else puntos--;
+    document.getElementById("d2").checked = false;
+    document.getElementById("d3").checked = false;
+    document.getElementById("d5").checked = false;
+}
 
-    if (document.getElementById("d3").checked === (numero % 3 === 0)) aciertos++;
-    else puntos--;
-
-    if (document.getElementById("d5").checked === (numero % 5 === 0)) aciertos++;
-    else puntos--;
-
-    puntos += aciertos;
-    document.getElementById("puntaje").textContent = puntos;
-    document.getElementById("resultado").textContent = "Aciertos: " + aciertos;
+function reiniciar() {
+    puntajeTotal = 0;
+    document.getElementById("puntaje").innerText = "⭐ Puntaje total: 0";
     nuevoNumero();
-  }
+}
 
-  nuevoNumero();
+function comprobar() {
+    let mensaje = "";
+    let puntosGanados = 0;
+
+    // Divisible por 2
+    if ((numero % 2 === 0) === document.getElementById("d2").checked) {
+        mensaje += "✔ Bien con el 2\n";
+        puntosGanados += 1;
+    } else {
+        mensaje += "❌ Error con el 2 → termina en 0, 2, 4, 6 u 8\n";
+        puntosGanados -= 1;
+    }
+
+    // Divisible por 3
+    if ((numero % 3 === 0) === document.getElementById("d3").checked) {
+        mensaje += "✔ Bien con el 3\n";
+        puntosGanados += 1;
+    } else {
+        mensaje += "❌ Error con el 3 → suma de cifras múltiplo de 3\n";
+        puntosGanados -= 1;
+    }
+
+    // Divisible por 5
+    if ((numero % 5 === 0) === document.getElementById("d5").checked) {
+        mensaje += "✔ Bien con el 5\n";
+        puntosGanados += 1;
+    } else {
+        mensaje += "❌ Error con el 5 → termina en 0 o 5\n";
+        puntosGanados -= 1;
+    }
+
+    puntajeTotal += puntosGanados;
+
+    document.getElementById("resultado").innerText =
+        mensaje + "\nPuntos en este número: " + puntosGanados;
+
+    document.getElementById("puntaje").innerText =
+        "⭐ Puntaje total: " + puntajeTotal;
+}
+
+nuevoNumero();
 </script>
 
 </body>
