@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Divisibilidad</title>
+  <style>
+    body {
+      background-color: #d9c9ff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 Practica Divisibilidad</h1>
+
+  <div class="card">
+    <h2 id="numero"></h2>
+
+    <label><input type="checkbox" id="d2"> Divisible por 2</label><br>
+    <label><input type="checkbox" id="d3"> Divisible por 3</label><br>
+    <label><input type="checkbox" id="d5"> Divisible por 5</label><br><br>
+
+    <button onclick="verificar()">Verificar</button>
+    <p id="resultado"></p>
+    <h3>Puntaje: <span id="puntaje">0</span></h3>
+  </div>
+
+<script>
+  let numero, puntos = 0;
+
+  function nuevoNumero() {
+    numero = Math.floor(Math.random() * 991) + 10;
+    document.getElementById("numero").textContent = "Número: " + numero;
+    document.querySelectorAll("input").forEach(c => c.checked = false);
+  }
+
+  function verificar() {
+    let aciertos = 0;
+    if (document.getElementById("d2").checked === (numero % 2 === 0)) aciertos++;
+    else puntos--;
+
+    if (document.getElementById("d3").checked === (numero % 3 === 0)) aciertos++;
+    else puntos--;
+
+    if (document.getElementById("d5").checked === (numero % 5 === 0)) aciertos++;
+    else puntos--;
+
+    puntos += aciertos;
+    document.getElementById("puntaje").textContent = puntos;
+    document.getElementById("resultado").textContent = "Aciertos: " + aciertos;
+    nuevoNumero();
+  }
+
+  nuevoNumero();
+</script>
+
+</body>
+</html>
